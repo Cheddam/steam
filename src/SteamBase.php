@@ -16,19 +16,24 @@ class SteamBase
 	private $baseUrl = 'http://api.steampowered.com';
 
 	private $defaultParameters = [
-		'apikey' => '',
+		'key' => '',
 		'format' => 'json'
 	];
 
 	public function __construct($apiKey, $baseUrl = '')
 	{
-		$this->defaultParameters['apikey'] = $apiKey;
+		$this->defaultParameters['key'] = $apiKey;
 		if (! empty($baseUrl)) $this->baseUrl = $baseUrl;
 
 		$this->client = new Client($this->baseUrl);
 	}
 
-	protected function callApi($method, array $parameters, $responseFormat = 'json')
+	/**
+	 * Calls the Steam API and returns the response in JSON.
+	 *
+	 * @return mixed
+	 */
+	protected function callApi($method, array $parameters)
 	{
 		$request = $this->client->createRequest('GET', $method);
 		$query = $request->getQuery();
@@ -38,21 +43,8 @@ class SteamBase
 		}
 
 		$response = $request->send();
-
-		// TODO: Make this smarter.
-		switch ($responseFormat) {
-			case 'json':
-				return $response->json();
-				break;
-
-			case 'xml':
-				return $response->xml();
-				break;
-
-			default:
-				return $response->getBody(true);
-				break;
-		}
+		
+		return $response->json();
 	}
 
 	/**
