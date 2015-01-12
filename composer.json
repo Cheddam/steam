@@ -1,0 +1,16 @@
+{
+	"name": "cheddam/steam",
+	"description": "An interface for the Steam API.",
+	"version": "1.0.0-dev",
+	"license": "MIT",
+
+	"require": {
+		"guzzle/guzzle": "~3.9"
+	},
+
+	"autoload": {
+		"psr-4": {
+			"Steam\\": "src"
+		}
+	}
+}
