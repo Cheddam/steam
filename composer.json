@@ -1,13 +1,22 @@
 {
 	"name": "cheddam/steam",
+	"type": "library",
 	"description": "An interface for the Steam API.",
-	"version": "1.0.0-dev",
+	"keywords": ["steam", "steamapi"],
+	"homepage": "https://github.com/cheddam/steam",
 	"license": "MIT",
-
+	"authors": [
+		{
+			"name": "Garion Herman",
+			"email": "garionh@icloud.com",
+			"homepage": "http://garion.geek.nz",
+			"role": "Developer"
+		}
+	],
 	"require": {
+		"php": ">=5.4.0",
 		"guzzle/guzzle": "~3.9"
 	},
-
 	"autoload": {
 		"psr-4": {
 			"Steam\\": "src"

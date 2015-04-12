@@ -10,6 +10,25 @@ namespace Steam;
 class SteamUser extends SteamBase
 {
 	/**
+	 * Finds a Steam user's 64bit ID by their Vanity URL.
+	 *
+	 * @param string  The vanity URL of the user (ie. steamcommunity.com/id/{vanityurl})
+	 * @return string|null  The user's 64bit Steam ID if they were found, or null if not.
+	 */
+	public function findByVanityUrl($vanityUrl)
+	{
+		$response = $this->callApi('/ISteamUser/ResolveVanityURL/v0001/', [
+			'vanityurl' => $vanityUrl
+		]);
+
+		if ($response->success = 42) {
+			return null;
+		} else {
+			return $reponse->steamid;
+		}
+	}
+
+	/**
 	 * Retrieves the profiles of Steam users.
 	 *
 	 * @param array  A list of 64bit Steam IDs to retrieve data for.
@@ -50,21 +69,18 @@ class SteamUser extends SteamBase
 	}
 
 	/**
-	 * Finds a Steam user's 64bit ID by their Vanity URL.
+	 * Retrieves all games owned by a Steam user.
 	 *
-	 * @param string  The vanity URL of the user (ie. steamcommunity.com/id/{vanityurl})
-	 * @return string|null  The user's 64bit Steam ID if they were found, or null if not.
+	 * @param string  The 64bit Steam ID of the user.
+	 * @param bool|false  Whether to include free to play games (such as TF2) in results
+	 * @param bool|false  Whether to limit returned data to AppIDs
 	 */
-	public function findByVanityUrl($vanityUrl)
+	public function getOwnedGames($steamID, $playedFreeGames = false, $limitToAppIDs = false)
 	{
-		$response = $this->callApi('/ISteamUser/ResolveVanityURL/v0001/', [
-			'vanityurl' => $vanityUrl
+		return $this->callApi('/IPlayerService/GetOwnedGames/v0001', [
+			'steamid' => $steamID,
+			'include_played_free_games' => $playedFreeGames,
+			'include_appinfo' => $limitToAppIDs
 		]);
-
-		if ($response->success = 42) {
-			return null;
-		} else {
-			return $reponse->steamid;
-		}
 	}
 }
