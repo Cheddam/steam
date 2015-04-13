@@ -24,7 +24,7 @@ class SteamUser extends SteamBase
 		if ($response['response']['success'] == 42) {
 			return null;
 		} else {
-			return $reponse['response']['steamid'];
+			return $response['response']['steamid'];
 		}
 	}
 
