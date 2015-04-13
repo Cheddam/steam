@@ -21,10 +21,10 @@ class SteamUser extends SteamBase
 			'vanityurl' => $vanityUrl
 		]);
 
-		if ($response->success = 42) {
+		if ($response['response']['success'] == 42) {
 			return null;
 		} else {
-			return $reponse->steamid;
+			return $reponse['response']['steamid'];
 		}
 	}
 
@@ -74,13 +74,16 @@ class SteamUser extends SteamBase
 	 * @param string  The 64bit Steam ID of the user.
 	 * @param bool|false  Whether to include free to play games (such as TF2) in results
 	 * @param bool|false  Whether to limit returned data to AppIDs
+	 * @return array  The list of games owned by the user.
 	 */
 	public function getOwnedGames($steamID, $playedFreeGames = false, $limitToAppIDs = false)
 	{
-		return $this->callApi('/IPlayerService/GetOwnedGames/v0001', [
+		$response = $this->callApi('/IPlayerService/GetOwnedGames/v0001', [
 			'steamid' => $steamID,
 			'include_played_free_games' => $playedFreeGames,
 			'include_appinfo' => $limitToAppIDs
 		]);
+
+		return $response['response']['games'];
 	}
 }
